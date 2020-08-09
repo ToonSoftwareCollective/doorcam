@@ -101,7 +101,7 @@ Screen {
 		}
 
 		onClicked: {
-			qkeyboard.open("URL", domoticzURL1.inputText, saveDomoticzURL1)
+			qkeyboard.open("URL", domoticzURL1.inputText, savedomoticzURL1)
 		}
 	}
 
@@ -130,7 +130,7 @@ Screen {
 		}
 
 		onClicked: {
-			qkeyboard.open("URL", domoticzIDX.inputText, saveDomoticzIDX)
+			qkeyboard.open("IDX", domoticzIDX.inputText, savedomoticzIDX)
 		}
 	}
 
@@ -159,8 +159,7 @@ Screen {
 		}
 
 		onClicked: {
-			qkeyboard.open("URL", domoticzVAR.inputText, saveDomoticzVAR)
+			qkeyboard.open("Var", domoticzVAR.inputText, savedomoticzVAR)
 		}
 	}
-
 }

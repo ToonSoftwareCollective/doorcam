@@ -1,4 +1,9 @@
 
+Version 1.1.1
+Minor change in config screen
+Default path to domoticz changed for debugging purposes
+
+
 Version 1.1.0
 Changed config file and saving operation of config file
 Added text to tile

@@ -24,7 +24,7 @@ App {
 	property int 		doorcamTimer1Interval: 1000
 	property bool 		doorcamTimer1Running: false
 	property string 	doorcamImageURL1 : "qrc:/tsc/connect.jpg"
-	property string 	domoticzURL1 : "http://192.168.10.185:8080"
+	property string 	domoticzURL1 : "http://192.168.10.18:8080"
 	property string 	domoticzIDX : "27"
 	property string 	domoticzVAR : "ShowDoorCamToon"
 
