@@ -23,6 +23,8 @@ App {
 	property int 		pictureCountdownCounter: 10
 	property int 		doorcamTimer1Interval: 1000
 	property bool 		doorcamTimer1Running: false
+	property bool 		enableForceMode : false
+	property string 	tmpForceMode : "No"
 	property string 	doorcamImageURL1 : "qrc:/tsc/connect.jpg"
 	property string 	domoticzURL1 : "http://192.168.10.18:8080"
 	property string 	domoticzIDX : "27"
@@ -33,7 +35,8 @@ App {
 		'doorcamImageURL1': "",
 		'domoticzURL1': "",
 		'domoticzIDX': "",
-		'domoticzVAR': ""
+		'domoticzVAR': "",
+		'tmpForceMode': ""
 	}
 
 	FileIO {
@@ -66,6 +69,13 @@ App {
 	Component.onCompleted: {
 		try {
 			doorcamSettingsJson = JSON.parse(doorcamSettingsFile.read());
+
+			if (doorcamSettingsJson['tmpForceMode'] == "Yes") {
+				enableForceMode = true
+			} else {
+				enableForceMode = false
+			}
+
 			doorcamImageURL1 = doorcamSettingsJson['camURL'];
 			domoticzURL1 = doorcamSettingsJson['domURL'];
 			domoticzIDX = doorcamSettingsJson['idx'];
@@ -77,7 +87,6 @@ App {
 	}
 
 	function updateDoorcamImage1() {
-		//if (doorcamFullScreen.visible && !dimState){
 		if (doorcamFullScreen.visible){
 			
 			console.log("doorcam: updateDoorcamImage1() called")
@@ -122,12 +131,20 @@ App {
 	}
 
 	function saveSettings() {
+		if (enableForceMode == true) {
+			tmpForceMode = "Yes";
+		} else {
+			tmpForceMode = "No";
+		}
+
  		var setJson = {
 			"camURL" : doorcamImageURL1,
 			"domURL" : domoticzURL1,
 			"idx" : domoticzIDX,
-			"var" : domoticzVAR
+			"var" : domoticzVAR,
+			"tmpForceMode" : tmpForceMode
 		}
+
   		var doc3 = new XMLHttpRequest();
    		doc3.open("PUT", "file:///mnt/data/tsc/doorcam_userSettings.json");
    		doc3.send(JSON.stringify(setJson));

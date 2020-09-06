@@ -10,6 +10,7 @@ Screen {
 		domoticzURL1.inputText = app.domoticzURL1;
 		domoticzIDX.inputText= app.domoticzIDX;
 		domoticzVAR.inputText= app.domoticzVAR;
+		enableForceModeToggle.isSwitchedOn = app.enableForceMode;
 		addCustomTopRightButton("Save");
 	}
 
@@ -46,6 +47,8 @@ Screen {
 	Text {
 		id: myLabel
 		text: "Example of valid URL: http://192.168.10.8/live/1/jpeg.jpg :"
+		font.pixelSize:  isNxt ? 20 : 16
+		font.family: qfont.regular.name
 		anchors {
 			left: parent.left
 			top: parent.top
@@ -77,6 +80,8 @@ Screen {
 	Text {
 		id: myLabel2
 		text: "Example of valid URL: http://192.168.10.185:8080 :"
+		font.pixelSize:  isNxt ? 20 : 16
+		font.family: qfont.regular.name
 		anchors {
 			left: parent.left
 			top: doorcamImageURL1.bottom
@@ -108,6 +113,8 @@ Screen {
 	Text {
 		id: myLabel3
 		text: "IDX of the doorbell variable in Domoticz created by script. Example : 27"
+		font.pixelSize:  isNxt ? 20 : 16
+		font.family: qfont.regular.name
 		anchors {
 			left: parent.left
 			top: domoticzURL1.bottom
@@ -137,6 +144,8 @@ Screen {
 	Text {
 		id: myLabel4
 		text: "Name of Domoticz variable. Example of valid name:  ShowDoorCamToon "
+		font.pixelSize:  isNxt ? 20 : 16
+		font.family: qfont.regular.name
 		anchors {
 			left: parent.left
 			top: domoticzIDX.bottom
@@ -162,4 +171,36 @@ Screen {
 			qkeyboard.open("Var", domoticzVAR.inputText, savedomoticzVAR)
 		}
 	}
+
+	Text {
+		id: forceMode
+		width:  160
+		text: "force 16:9"
+		font.pixelSize:  isNxt ? 20 : 16
+		font.family: qfont.regular.name
+
+		anchors {
+			left: parent.left
+			top: domoticzVAR.bottom
+			leftMargin: 20
+			topMargin: 10
+		}
+	}
+
+	OnOffToggle {
+		id: enableForceModeToggle
+		height:  30
+		anchors.left: forceMode.right
+		anchors.leftMargin: isNxt ? 65 : 30
+		anchors.top: forceMode.top
+		leftIsSwitchedOn: false
+		onSelectedChangedByUser: {
+			if (isSwitchedOn) {
+				app.enableForceMode = true;
+			} else {
+				app.enableForceMode = false;
+			}
+		}
+	}
+
 }

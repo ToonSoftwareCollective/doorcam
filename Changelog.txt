@@ -1,4 +1,8 @@
 
+Version 1.2.0
+Force 16:9 added for widescreen camera's
+
+
 Version 1.1.1
 Minor change in config screen
 Default path to domoticz changed for debugging purposes

@@ -56,6 +56,7 @@ Screen {
 
         	doc.setRequestHeader("Content-Encoding", "UTF-8");
         	doc.send();
+		app.doorcamImage1Source = "qrc:/tsc/connect.jpg";
 		app.doorcamImage2Source = "qrc:/tsc/connect.jpg";
 		this.close();
 	}
@@ -63,12 +64,12 @@ Screen {
 
 	Image {
 		id: doorcamImage1
-		width: parent.width
+		width: app.enableForceMode? parent.width - 110 : parent.width
 		height: parent.height - 30
-		fillMode: Image.PreserveAspectFit
+		fillMode: app.enableForceMode? Image.Stretch : Image.PreserveAspectFit
 		source: app.doorcamImage1Source
 		anchors {
-			left: parent.left
+			horizontalCenter: parent.horizontalCenter
 			top: parent.top
 		}
 		cache: false
@@ -87,12 +88,12 @@ Screen {
 
 	Image {
 		id: doorcamImage2
-		width: parent.width
+		width: app.enableForceMode? parent.width - 110 : parent.width
 		height: parent.height - 30
-		fillMode: Image.PreserveAspectFit
+		fillMode: app.enableForceMode? Image.Stretch : Image.PreserveAspectFit
 		source: app.doorcamImage2Source
 		anchors {
-			left: parent.left
+			horizontalCenter: parent.horizontalCenter
 			top: parent.top
 		}
 		cache: false
@@ -116,7 +117,7 @@ Screen {
 	Rectangle {
 	    width: Math.abs((app.pictureCountdownCounter/app.pictureCountdownCounterStart)*parent.width)
 	    height: 20
-	    color: "green"
+	    color: app.enableForceMode? "blue" : "green"
 			anchors {
 				left: parent.left
 				bottom: parent.bottom
