@@ -50,6 +50,47 @@ Tile {
         	doc.send();
    	 }
 
+
+ 	function getha() {
+        	var doc = new XMLHttpRequest();
+        	doc.onreadystatechange = function() {
+            		if (doc.readyState == XMLHttpRequest.DONE) {
+				var JsonString = doc.responseText;
+
+                                console.log(JsonString)
+
+        			var JsonObject = JSON.parse(JsonString);
+        			//retrieve values from JSON again
+        			var aString = JsonObject.state;
+
+				if (aString == "100.0"){
+					if (app.doorcamFullScreen) {
+						//app.doorcamFullScreen.showMinimized();
+						app.doorcamFullScreen.hide();
+						console.log("webcam: app.webcamFullScreen.hide() called")
+					}
+				}
+
+				if (aString == "200.0"){
+					if (app.doorcamFullScreen) {
+						app.doorcamFullScreen.show();
+						console.log("webcam: app.webcamFullScreen.show() called")
+					}
+				}
+
+				//mainText.text = doc.responseText;
+            		}
+        	}
+                var haURl2 = app.haURL1
+                haURl2 += "/api/states/"
+                haURl2 += app.haEntity_id
+
+                doc.open("GET", haURl2, true);
+                doc.setRequestHeader("Authorization", "Bearer " + app.haToken);
+                doc.setRequestHeader("Content-Type", "application/json");
+        	doc.send();
+   	 }
+
 	Image {
 		id: tileDoorcamImage1
     		width: 200; height: 140
@@ -84,7 +125,7 @@ Tile {
         	repeat: true
         	running: true
         	triggeredOnStart: true
-        	onTriggered: getDOM()
+        	onTriggered: app.domMode? getDOM() : getha()
     	}
 }
 

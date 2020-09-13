@@ -1,4 +1,12 @@
 
+Version 1.3.1
+Minor changes in config screen for Toon 1 resolution
+
+
+Version 1.3.0
+Option for HA instead of Domoticz added
+
+
 Version 1.2.0
 Force 16:9 added for widescreen camera's
 

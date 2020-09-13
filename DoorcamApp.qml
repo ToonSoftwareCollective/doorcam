@@ -24,11 +24,16 @@ App {
 	property int 		doorcamTimer1Interval: 1000
 	property bool 		doorcamTimer1Running: false
 	property bool 		enableForceMode : false
+	property bool 		domMode : true
+	property string 	tmpdomMode : "Domoticz"
 	property string 	tmpForceMode : "No"
 	property string 	doorcamImageURL1 : "qrc:/tsc/connect.jpg"
 	property string 	domoticzURL1 : "http://192.168.10.18:8080"
 	property string 	domoticzIDX : "27"
 	property string 	domoticzVAR : "ShowDoorCamToon"
+	property string 	haURL1 : "http://192.168.10.18:8123"
+	property string 	haEntity_id : "entity_id"
+	property string 	haToken : "haToken"
 
 // user settings from config file
 	property variant doorcamSettingsJson : {
@@ -36,7 +41,12 @@ App {
 		'domoticzURL1': "",
 		'domoticzIDX': "",
 		'domoticzVAR': "",
-		'tmpForceMode': ""
+		'tmpForceMode': "",
+		'haURL1': "",
+		'haEntity_id': "",
+		'haToken': "",
+		'tmpdomMode': ""
+
 	}
 
 	FileIO {
@@ -76,11 +86,21 @@ App {
 				enableForceMode = false
 			}
 
+
+			if (doorcamSettingsJson['tmpdomMode'] == "Domoticz") {
+				domMode = true
+			} else {
+				domMode = false
+			}
+
 			doorcamImageURL1 = doorcamSettingsJson['camURL'];
 			domoticzURL1 = doorcamSettingsJson['domURL'];
 			domoticzIDX = doorcamSettingsJson['idx'];
 			domoticzVAR = doorcamSettingsJson['var'];
-		
+			haURL1 = doorcamSettingsJson['haURL'];
+			haEntity_id = doorcamSettingsJson['entity_id'];
+			haToken = doorcamSettingsJson['token'];
+
 		} catch(e) {
 		}
 		listProperty(screenStateController)
@@ -137,12 +157,23 @@ App {
 			tmpForceMode = "No";
 		}
 
+		if (domMode == true) {
+			tmpdomMode = "Domoticz";
+		} else {
+			tmpdomMode = "HA";
+		}
+
  		var setJson = {
 			"camURL" : doorcamImageURL1,
 			"domURL" : domoticzURL1,
 			"idx" : domoticzIDX,
 			"var" : domoticzVAR,
-			"tmpForceMode" : tmpForceMode
+			"haURL" : haURL1,
+			"entity_id" : haEntity_id,
+			"token" : haToken,
+			"tmpForceMode" : tmpForceMode,
+			"tmpdomMode" : tmpdomMode
+
 		}
 
   		var doc3 = new XMLHttpRequest();

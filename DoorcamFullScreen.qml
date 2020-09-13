@@ -18,21 +18,37 @@ Screen {
 		app.doorcamTimer1Interval = 1000
 		app.pictureCountdownCounter = app.pictureCountdownCounterStart
 		app.doorcamTimer1Running = true
-
-		//zet de Domoticz parameter naar 150
-		var doc = new XMLHttpRequest();
-        	doc.onreadystatechange = function() {
-            		if (doc.readyState == XMLHttpRequest.DONE) {
-            		}
-        	}
-        	var domURL2 = app.domoticzURL1
-		domURL2 += "/json.htm?type=command&param=updateuservariable&vname="
-		domURL2 += app.domoticzVAR
-		domURL2 += "&vtype=2&vvalue=150"
-
-		doc.open("get", domURL2);
-        	doc.setRequestHeader("Content-Encoding", "UTF-8");
-        	doc.send();
+		if (app.domMode){
+			//zet de Domoticz parameter naar 150
+			var doc = new XMLHttpRequest();
+        		doc.onreadystatechange = function() {
+            			if (doc.readyState == XMLHttpRequest.DONE) {
+            			}
+        		}
+        		var domURL2 = app.domoticzURL1
+			domURL2 += "/json.htm?type=command&param=updateuservariable&vname="
+			domURL2 += app.domoticzVAR
+			domURL2 += "&vtype=2&vvalue=150"
+			doc.open("get", domURL2);
+        		doc.setRequestHeader("Content-Encoding", "UTF-8");
+        		doc.send();
+		}
+		if (!app.domMode){
+			//zet de ha Entity_id state naar 150
+			var doc = new XMLHttpRequest();
+        		doc.onreadystatechange = function() {
+            			if (doc.readyState == XMLHttpRequest.DONE) {
+            			}
+        		}
+                	var haURL2 = app.haURL1
+                	haURL2 += "/api/states/"
+                	haURL2 += app.haEntity_id
+               	 	var params = '{"state": "150"}';
+               	 	doc.open("POST", haURL2, true);
+                	doc.setRequestHeader("Authorization", "Bearer " + app.haToken);
+                	doc.setRequestHeader("Content-Type", "application/json");
+			doc.send(params);
+		}
 	}
 
 	onHidden: {
@@ -40,22 +56,38 @@ Screen {
 		app.doorcamTimer1Interval = 10000
 		app.pictureCountdownCounter = -1
 		screenStateController.screenColorDimmedIsReachable = true
-
-		//zet de Domoticz parameter naar 150
-		var doc = new XMLHttpRequest();
-        	doc.onreadystatechange = function() {
-            		if (doc.readyState == XMLHttpRequest.DONE) {
-            			}
-        	}
-		var domURL2 = app.domoticzURL1
-		domURL2 += "/json.htm?type=command&param=updateuservariable&vname="
-		domURL2 += app.domoticzVAR
-		domURL2 += "&vtype=2&vvalue=150"
-
-		doc.open("get", domURL2);
-
-        	doc.setRequestHeader("Content-Encoding", "UTF-8");
-        	doc.send();
+		if (app.domMode){
+			//zet de Domoticz parameter naar 150
+			var doc = new XMLHttpRequest();
+        		doc.onreadystatechange = function() {
+            			if (doc.readyState == XMLHttpRequest.DONE) {
+            				}
+        		}
+			var domURL2 = app.domoticzURL1
+			domURL2 += "/json.htm?type=command&param=updateuservariable&vname="
+			domURL2 += app.domoticzVAR
+			domURL2 += "&vtype=2&vvalue=150"
+			doc.open("get", domURL2);
+        		doc.setRequestHeader("Content-Encoding", "UTF-8");
+        		doc.send();
+		}
+		if (!app.domMode){
+			//zet de ha Entity_id state naar 150
+			var doc = new XMLHttpRequest();
+        		doc.onreadystatechange = function() {
+            			if (doc.readyState == XMLHttpRequest.DONE) {
+            				}
+        		}
+	                var haurl2 = app.haURL1
+       		        haurl2 += "/api/states/"
+       	         	haurl2 += app.haEntity_id
+                	var params = '{"state": "150"}';
+                	doc.open("POST", haurl2, true);
+                	doc.setRequestHeader("Authorization", "Bearer " + app.haToken);
+                	doc.setRequestHeader("Content-Type", "application/json");
+                	doc.send(params);
+			this.close();		
+		}
 		app.doorcamImage1Source = "qrc:/tsc/connect.jpg";
 		app.doorcamImage2Source = "qrc:/tsc/connect.jpg";
 		this.close();
